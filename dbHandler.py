@@ -6,7 +6,7 @@ from location import *
 def insert_person(person):
     with connection.cursor() as cursor:
         query = f"update person set id = {person.person_id}," \
-                f"name = {person.name}," \
+                f"name = '{person.name}'," \
                 f"phone = {person.phone} " \
                 f"where telegramUserName = {person.user_name};"
         cursor.execute(query)
