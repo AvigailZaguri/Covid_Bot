@@ -120,12 +120,12 @@ def finish_epmd():
 def get_yesterday_location_time(user_name, args):
     location = args[0]
     time = args[1]
-    #check is red location
+    # check is red location
     return check_is_red_location(location, time)
 
 
-def check_is_red_location():
-    dbHandler.get_location_by_name_and_time()
+def check_is_red_location(location, time):
+    dbHandler.get_location_by_name_and_time(location, time)
 
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,

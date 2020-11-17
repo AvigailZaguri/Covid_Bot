@@ -83,7 +83,7 @@ def mok_db():
         connection.commit()
 
 
-def get_location_by_name_and_time():
+def get_location_by_name_and_time(location, time):
     pass
 
 #mok_db()
