@@ -10,11 +10,11 @@ requests.get(TELEGRAM_INIT_WEBHOOK_URL)
 
 @app.route('/message', methods=["POST"])
 def handle_message():
-    chat_id = message_handler.extract_message_chat_id(request.get_json())
-    message = bot.handle_bot(request.get_json())
-
+    message = request.get_json()["message"]
+    chat_id = message['chat']['id']
+    note = bot.handle_bot(message)
     requests.get("https://api.telegram.org/bot{}/sendMessage?chat_id={}&text={}".format(TELEGRAM_TOKEN, chat_id,
-                                                                                    message))
+                                                                                        note))
     return Response("success")
 
 
