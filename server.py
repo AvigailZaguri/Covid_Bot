@@ -1,7 +1,7 @@
 import requests
 from flask import Flask, request, Response
-
 from config import TELEGRAM_INIT_WEBHOOK_URL, TELEGRAM_TOKEN
+import bot
 
 app = Flask(__name__)
 requests.get(TELEGRAM_INIT_WEBHOOK_URL)
