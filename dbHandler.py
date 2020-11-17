@@ -5,7 +5,10 @@ from location import *
 
 def insert_person(person):
     with connection.cursor() as cursor:
-        query = f"insert into person values ({person.person_id}, {person.name}, {person.phone}, {person.user_name}, {person.state});"
+        query = f"update person set id = {person.person_id}," \
+                f"name = {person.name}," \
+                f"phone = {person.phone} " \
+                f"where telegramUserName = {person.user_name};"
         cursor.execute(query)
         connection.commit()
 
@@ -44,6 +47,26 @@ def get_date_time_and_duration(lat, lon, date):
         return res[0]
 
 
+def get_state_by_user_name(user_name):
+    with connection.cursor() as cursor:
+        query = f"select Conversation_state from Person where telegramUserName = {user_name};"
+        cursor.execute(query)
+        res = cursor.fetchone()
+        return res
+
+
+def set_state_by_user_name(user_name, state):
+    if not get_state_by_user_name(user_name):
+        with connection.cursor() as cursor:
+            query = f"insert into  Person (telegramUserName, Conversation_state) values({user_name}, {state});"
+            cursor.execute(query)
+            connection.commit()
+    else:
+        with connection.cursor() as cursor:
+            query = f"update  Person set Conversation_state = {state} where telegramUserName = {user_name};"
+            cursor.execute(query)
+            connection.commit()
+
 def mok_db():
     with connection.cursor() as cursor:
         query = "insert into person values(209311181, 'aya', 025375858, '0987', 0);"
@@ -59,4 +82,4 @@ def mok_db():
 
 #mok_db()
 
-print(is_red_location('31.75165995', '35.18739009689732', '2020-11-16'))
+#print(is_red_location('31.75165995', '35.18739009689732', '2020-11-16'))
