@@ -11,8 +11,8 @@ def extract_message_chat_id(request_as_json):
     return chat_id
 
 
-def extract_message_user_name(message):
-    user_name = message['from']['id']
+def extract_message_user_name(request_as_json):
+    user_name = request_as_json['message']['from']['id']
     return user_name
 
 

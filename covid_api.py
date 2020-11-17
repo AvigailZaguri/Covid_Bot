@@ -23,7 +23,7 @@ def get_state_by_user_name(self, user_name):
 
 
 def set_state_by_user_name(self, user_name):
-    pass
+
 
 
 def next_state(self, user_name, current_state):
