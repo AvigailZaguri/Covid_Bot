@@ -1,6 +1,6 @@
 import requests
 from flask import Flask, request, Response
-from config import TELEGRAM_INIT_WEBHOOK_URL, TELEGRAM_TOKEN
+from config import TELEGRAM_INIT_WEBHOOK_URL, TELEGRAM_TOKEN, WEBHOOK_PORT
 import bot
 import message_handler
 
@@ -19,4 +19,4 @@ def handle_message():
 
 
 if __name__ == '__main__':
-    app.run(port=5002)
+    app.run(port=WEBHOOK_PORT)

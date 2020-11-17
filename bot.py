@@ -18,4 +18,3 @@ def handle_bot(request_as_json):
         current_state = covid_api.next_state(user_name, current_state)
         covid_api.state_commands[current_state]()
     return chat_id
-
