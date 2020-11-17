@@ -45,8 +45,8 @@ def which_command(user_name, args):
 
 # 50-100
 def flow_insulation(user_name):
-    dbHandler.set_state_by_user_name(user_name, 51)
-    return "select flow_insulation"
+    dbHandler.set_state_by_user_name(user_name, 50)
+    return "Where have you been yesterday? please enter the exact place and time (place,time)"
 
 
 # 101-150
@@ -117,12 +117,23 @@ def finish_epmd():
     pass
 
 
+def get_yesterday_location_time(user_name, args):
+    location = args[0]
+    time = args[1]
+    #check is red location
+    return check_is_red_location(location, time)
+
+
+def check_is_red_location():
+    dbHandler.get_location_by_name_and_time()
+
+
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
-                  106: where_been_day4, 107: finish_epmd,
-                  152: have_fever, 153: no_fever}
-                 # 50: get_yesterday_location, 51: }
+                  106: where_been_day4, 107: finish_epmd, #bidud
+                  152: have_fever, 153: no_fever,
+                  50: 51, 51: get_yesterday_location_time, 52: check_is_red_location}
 state_flow = {1: 2, 2: 3, 3: 300, #start
               102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
-              152: 153, 153: 300 #coronatest
-              }
+              152: 153, 153: 300, #coronatest
+              51: 52, 52: 300} #bidud

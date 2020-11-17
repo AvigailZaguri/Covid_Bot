@@ -2,6 +2,8 @@ from config import connection
 from person import *
 from location import *
 
+from geopy.geocoders import Nominatim
+
 
 def insert_person(person):
     with connection.cursor() as cursor:
@@ -67,6 +69,7 @@ def set_state_by_user_name(user_name, state):
             cursor.execute(query)
             connection.commit()
 
+
 def mok_db():
     with connection.cursor() as cursor:
         query = "insert into person values(209311181, 'aya', 025375858, '0987', 0);"
@@ -78,6 +81,7 @@ def mok_db():
         query = "insert into LocationPerson values('2020-11-16 10:30:00', 75, 1, 0, 0987, '31.75165995', '35.18739009689732');"
         cursor.execute(query)
         connection.commit()
+
 
 
 #mok_db()
