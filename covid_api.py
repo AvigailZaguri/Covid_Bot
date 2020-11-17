@@ -57,7 +57,7 @@ def flow_epidemiology(user_name):
 
 # 151-200
 def flow_corona_test(user_name):
-    dbHandler.set_state_by_user_name(user_name, 152)
+    dbHandler.set_state_by_user_name(user_name, 151)
     return "do you have fever?"
 
 
@@ -67,13 +67,13 @@ def thank_you(user_name, args):
 
 def have_fever(user_name, args):
     if args[0] == 'yes':
-        return "do you coughf?"
+        return "Are you coughing?"
     elif args[0] == 'no':
-        dbHandler.set_state_by_user_name(user_name,300)
+        dbHandler.set_state_by_user_name(user_name, 300)
         return "you don't have corona"
     else:
-        dbHandler.set_state_by_user_name(user_name, 300)
-        return "worng input"
+        dbHandler.set_state_by_user_name(user_name, 151)
+        return "wrong input, try again"
 
 
 def no_fever(user_name, args):
@@ -82,7 +82,8 @@ def no_fever(user_name, args):
     elif args[0] == 'no':
         return "you don't have corona"
     else:
-        return "worng input"
+        dbHandler.set_state_by_user_name(user_name, 152)
+        return "wrong input, try again"
 
 
 def have_corona(user_name, args):
@@ -124,5 +125,5 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
                  # 50: get_yesterday_location, 51: }
 state_flow = {1: 2, 2: 3, 3: 300, #start
               102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
-              152: 153, 153: 300 #coronatest
+              151: 152, 152: 153, 153: 300 #coronatest
               }
