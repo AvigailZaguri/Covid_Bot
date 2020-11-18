@@ -1,10 +1,11 @@
 
-
-import personLocation
+from personLocation import PersonLocation
 from person import *
-from location import *
+from location import Location
 import dbHandler
 from datetime import date, datetime, timedelta
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent="bot app")
 
 
 def welcome_message():
@@ -100,33 +101,121 @@ def when_daignosed(user_name, args):
 
 #['address','yafo','1','time','10:30','duration','75']
 def where_been_day1(user_name, args):
-    location = " ".join(args)
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
-    one_day = timedelta(days=2)
-    day_before = day_daignosed - one_day
-    #data = geolocator.geocode("1 yaffo , jerusalem, israel")
-    #lat, lon = data.raw.get("lat"), data.raw.get("lon")
-    # personLocation p_location(234, lat, lon, 1, 2020-10-9, 60, 1)
-    # dbHandler.insert_location_person()
+    tow_day = timedelta(days=2)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=1)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
     return f"Where you were on the date {day_before.date()}?\n" \
            f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day2(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=3)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=2)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day3(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=4)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=3)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day4(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=5)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=4)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
+           f"I wish you to feel good.\n" \
+           f"and don't forget-STAY AT HOME ;)"
 
 
 def finish_epmd(user_name, args):
-    pass
+    return "The epidemiological inquiry ended.\n" \
+           "you can start again by the command: /start"
 
 
 def get_yesterday_location_time(user_name, args):
