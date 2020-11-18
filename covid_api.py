@@ -19,26 +19,21 @@ def welcome_message():
 # 4
 def insert_name(user_name, args):
     my_name = "".join(args)
-    # dbHandler.set_name_by_user_name(user_name, my_name)
+    dbHandler.set_name_by_user_name(user_name, my_name)
     return "and what's your id number?"
 
 
 # 5
 def insert_id(user_name, args):
-    # dbHandler.set_id_by_user_name(user_name, args[0])
+    dbHandler.set_id_by_user_name(user_name, args[0])
     return "and what's your phone number?"
 
 
 # 2
 def identification(user_name, args):
-    # dbHandler.set_phone_by_user_name(user_name, args[0])
-    name = args[0]
-    user_id = args[1]
-    phone = args[2]
-    person = Person(user_name, user_id, name, phone)
-    dbHandler.insert_person(person)
+    dbHandler.set_phone_by_user_name(user_name, args[0])
     return "The identification process success\n" \
-           "Please select command to continue"
+           "Please select command to continue \n /quarantine \n /epidemiology \n /questioning"
 
 
 def get_state_by_user_name(user_name):
@@ -59,11 +54,11 @@ def next_state(user_name, current_state):
 
 
 def which_command(user_name, args):
-    if args[0] == "/insulation":
+    if args[0] == "/quarantine":
         return flow_insulation(user_name)
     if args[0] == "/epidemiology":
         return flow_epidemiology(user_name)
-    if args[0] == "/coronatest":
+    if args[0] == "/questioning":
         return flow_corona_test(user_name)
 
 
@@ -82,7 +77,7 @@ def flow_epidemiology(user_name):
 # 301
 def thank_you():
     return "Thank you:-)\n You prevent covid-19 from spreading!!\n" \
-           "Do you want anther command?"
+           "Do you want anther command? /yes /no"
 
 
 # 300
@@ -359,7 +354,7 @@ def where_been_day4(user_name, args):
     dbHandler.insert_location_person(personL)
     return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
            f"I wish you to feel good.\n" \
-           f"and don't forget-STAY AT HOME ;)"
+           f"and don't forget: STAY AT HOME ;)"
 
 
 def finish_epmd(user_name, args):
@@ -382,7 +377,17 @@ def get_yesterday_location_time(user_name, args):
 
 
 def check_is_red_location(location, time):
-    if dbHandler.get_location_by_name_and_time(location, time):
+    print(location)
+    print(time)
+    data = geolocator.geocode(location).raw
+    print(data)
+    if not data:
+        return "Place not found"
+    lat = data.get("lat")
+    lon = data.get("lon")
+    print(data)
+    location_obj = Location(lat, lon)
+    if dbHandler.get_location_by_name_and_time(location_obj, time):
         return "It's a red place, please go into isolation\n" \
                "if you want to start again click /start"
     else:
@@ -398,10 +403,10 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
                   300: anther_command,
                   4: insert_name, 5: insert_id, 51: get_yesterday_location_time, 52: check_is_red_location}  # bidud
 
-state_flow = {1: 2, 2: 3, 3: 300, 301: 300,  # start
+state_flow = {2: 3, 3: 300, 301: 300,  # start
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300,  # empd
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
-              50: 51, 51: 52, 52: 300
-              # 1: 4, 4: 5, 5: 2
+              50: 51, 51: 52, 52: 300,
+              1: 4, 4: 5, 5: 2
               }  # bidud
