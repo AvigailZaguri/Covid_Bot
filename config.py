@@ -14,8 +14,8 @@ TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/me
 connection = pymysql.connect(
     host="localhost",
     user="root",
-    password="Az97185Az!",
-    db="coivdbotdb",
+    password="",
+    db="covidbotdb",
     charset="utf8",
     cursorclass=pymysql.cursors.DictCursor
 )
