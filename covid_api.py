@@ -234,9 +234,11 @@ def get_yesterday_location_time(user_name, args):
 
 def check_is_red_location(location, time):
     if dbHandler.get_location_by_name_and_time(location, time):
-        return "It's a red place, please go into isolation"
+        return "It's a red place, please go into isolation\n" \
+               "if you want to start again click /start"
     else:
-        return "It's not a red place, you'r free!"
+        return "It's not a red place, you'r free!\n" \
+               "if you want to start again click /start"
 
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
@@ -247,6 +249,6 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
 state_flow = {1: 2, 2: 3, 3: 300, #start
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
               151: 152, 152: 153, 153: 300, #coronatest
-              50: 51,51: 52, 52: 300} #bidud
+              50: 51,51: 52, 52: 53} #bidud
 
 
