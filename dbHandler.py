@@ -42,14 +42,14 @@ def insert_location_person(person_location):
     with connection.cursor() as cursor:
         query = f"insert into LocationPerson values ({person_location.datetime_start}, {person_location.duration}, " \
                 f"{person_location.is_mask}" \
-                f"{person_location.is_open_space},{person_location.userName},{person_location.lat},{person_location.lon});"
+                f"{person_location.is_open_space},'{person_location.userName}','{person_location.lat}','{person_location.lon}');"
         cursor.execute(query)
         connection.commit()
 
 
 def is_red_location(lat, lon, date):
     with connection.cursor() as cursor:
-        query = f"select * from LocationPerson where lat = {lat} and lon = {lon} and startDateTime.date = {date};"
+        query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}' and startDateTime.date = {date};"
         cursor.execute(query)
         res = cursor.fetchall()
         if res[0]:
@@ -59,7 +59,7 @@ def is_red_location(lat, lon, date):
 
 def get_date_time_and_duration(lat, lon, date):
     with connection.cursor() as cursor:
-        query = f"select * from LocationPerson where lat = {lat} and lon = {lon};"
+        query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}';"
         cursor.execute(query)
         res = cursor.fetchall()
         return res[0]

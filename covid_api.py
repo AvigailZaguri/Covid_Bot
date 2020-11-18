@@ -95,9 +95,10 @@ def when_daignosed(user_name, args):
     day_daignosed = datetime.strptime(args[0], '%Y-%m-%d')
     one_day = timedelta(days=1)
     day_before = day_daignosed - one_day
-    return f"Where you were on the date {day_before}"
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
-
+#['address','yafo','1','time','10:30','duration','75']
 def where_been_day1(user_name, args):
     location = " ".join(args)
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
@@ -108,7 +109,8 @@ def where_been_day1(user_name, args):
     #lat, lon = data.raw.get("lat"), data.raw.get("lon")
     # personLocation p_location(234, lat, lon, 1, 2020-10-9, 60, 1)
     # dbHandler.insert_location_person()
-    return f"Where you were on the date {day_before}"
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day2(user_name, args):
