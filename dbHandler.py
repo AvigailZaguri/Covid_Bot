@@ -5,10 +5,18 @@ from location import *
 
 def insert_person(person):
     with connection.cursor() as cursor:
-        query = f"update person set id = {person.person_id}," \
+        query = f"update person set id = '{person.person_id}'," \
                 f"name = '{person.name}'," \
-                f"phone = {person.phone} " \
+                f"phone = '{person.phone}' " \
                 f"where telegramUserName = {person.user_name};"
+        cursor.execute(query)
+        connection.commit()
+
+
+def insert_day_daignose(user_name, day_daignose):
+    with connection.cursor() as cursor:
+        query = f"update person set day_daignose = '{day_daignose}'" \
+                f"where telegramUserName = {user_name};"
         cursor.execute(query)
         connection.commit()
 
@@ -67,19 +75,3 @@ def set_state_by_user_name(user_name, state):
             cursor.execute(query)
             connection.commit()
 
-def mok_db():
-    with connection.cursor() as cursor:
-        query = "insert into person values(209311181, 'aya', 025375858, '0987', 0);"
-        cursor.execute(query)
-        connection.commit()
-        query = "insert into location values('31.75165995', '35.18739009689732');"
-        cursor.execute(query)
-        connection.commit()
-        query = "insert into LocationPerson values('2020-11-16 10:30:00', 75, 1, 0, 0987, '31.75165995', '35.18739009689732');"
-        cursor.execute(query)
-        connection.commit()
-
-
-#mok_db()
-
-#print(is_red_location('31.75165995', '35.18739009689732', '2020-11-16'))

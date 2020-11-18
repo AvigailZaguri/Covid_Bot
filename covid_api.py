@@ -1,6 +1,10 @@
+
+
+import personLocation
 from person import *
 from location import *
 import dbHandler
+from datetime import date, datetime, timedelta
 
 
 def welcome_message():
@@ -51,13 +55,13 @@ def flow_insulation(user_name):
 
 # 101-150
 def flow_epidemiology(user_name):
-    dbHandler.set_state_by_user_name(user_name, 102)
-    return "select flow_epidemiology"
+    dbHandler.set_state_by_user_name(user_name, 101)
+    return "when are you daignosed in Covid19?(yyyy-mm-dd)"
 
 
 # 151-200
 def flow_corona_test(user_name):
-    dbHandler.set_state_by_user_name(user_name, 152)
+    dbHandler.set_state_by_user_name(user_name, 151)
     return "do you have fever?"
 
 
@@ -93,27 +97,35 @@ def no_corona(user_name, args):
     pass
 
 
-def when_daignosed():
+def when_daignosed(user_name, args):
+    dbHandler.insert_day_daignose(user_name, args[0])
+    day_daignosed = datetime.strptime(args[0], '%Y-%m-%d')
+    one_day = timedelta(days=1)
+    day_before = day_daignosed - one_day
+    return f"where you were on the date {day_before}"
+
+
+def where_been_day1(user_name, args):
+    location = " ".join(args)
+    #data = geolocator.geocode("1 yaffo , jerusalem, israel")
+    #lat, lon = data.raw.get("lat"), data.raw.get("lon")
+    # personLocation p_location(234, lat, lon, 1, 2020-10-9, 60, 1)
+    # dbHandler.insert_location_person()
+
+
+def where_been_day2(user_name, args):
     pass
 
 
-def where_been_day1():
+def where_been_day3(user_name, args):
     pass
 
 
-def where_been_day2():
+def where_been_day4(user_name, args):
     pass
 
 
-def where_been_day3():
-    pass
-
-
-def where_been_day4():
-    pass
-
-
-def finish_epmd():
+def finish_epmd(user_name, args):
     pass
 
 
@@ -123,6 +135,6 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
                   152: have_fever, 153: no_fever}
                  # 50: get_yesterday_location, 51: }
 state_flow = {1: 2, 2: 3, 3: 300, #start
-              102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
-              152: 153, 153: 300 #coronatest
+              101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
+              151: 152, 152: 153, 153: 300 #coronatest
               }
