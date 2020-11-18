@@ -36,6 +36,7 @@ def set_id_by_user_name(user_name, id):
         cursor.execute(query)
         connection.commit()
 
+
 def insert_day_daignose(user_name, day_daignose):
     with connection.cursor() as cursor:
         query = f"update person set day_daignose = '{day_daignose}'" \
@@ -69,7 +70,15 @@ def get_location(location):
 
 def insert_location_person(person_location):
     with connection.cursor() as cursor:
-        query =f"insert into LocationPerson values ('{person_location.datetime_start}',{person_location.duration},1,1,'{person_location.person_id}','{person_location.lat}','{person_location.lon}');"
+        query = f"insert into LocationPerson values ('{person_location.datetime_start}',{person_location.duration},1,1,'{person_location.person_id}','{person_location.lat}','{person_location.lon}');"
+        cursor.execute(query)
+        connection.commit()
+
+
+def set_duration_by_user_name(user_name, duration):
+    with connection.cursor() as cursor:
+        query = f"update LocationPerson set duration = '{duration}'" \
+                f"where telegramUserName = '{user_name}';"
         cursor.execute(query)
         connection.commit()
 
@@ -127,5 +136,3 @@ def is_red_location(lat, lon, time):
         if location:
             return True
         return False
-
-

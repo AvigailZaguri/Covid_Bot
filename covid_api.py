@@ -233,27 +233,28 @@ def more_sym(user_name, args):
         dbHandler.set_state_by_user_name(user_name, 169)
         return "wrong input, try again\nDo you any other symptoms? /yes /no"
 
-
+# 102
 def when_daignosed(user_name, args):
     dbHandler.insert_day_daignose(user_name, args[0])
     day_daignosed = datetime.strptime(args[0], '%Y-%m-%d')
     one_day = timedelta(days=1)
     day_before = day_daignosed - one_day
     return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: 'address xxxx time hh:mm duration: mm"
+               f"Please enter: '<address> at <hh:mm>"
 
 
 # ['address','yafo','1','time','10:30','duration','75']
+# 103
 def where_been_day1(user_name, args):
-    location_end_index = args.index('time')
-    i = 1
+    location_end_index = args.index('at')
+    i = 0
     location = ""
     while i < location_end_index:
         location += " "
         location += args[i]
         i += 1
-    hour = args[args.index('time') + 1]
-    duration = args[args.index('time') + 3]
+    hour = args[args.index('at') + 1]
+    #duration = args[args.index('at') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=2)
@@ -263,25 +264,71 @@ def where_been_day1(user_name, args):
     lon = data.get("lon")
     day_hour = day_daignosed - timedelta(days=1)
     day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
-    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, 0, 1)
     location_obj = Location(lat, lon)
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
+    return "How much time you spent there?"
+    # return f"Where you were on the date {day_before.date()}?\n" \
+    #        f"Please enter: 'address xxxx time hh:mm duration: mm"
+
+
+# 113
+def day1_duration(user_name, args):
+    duration = args[0]
+    dbHandler.set_duration_by_user_name(user_name, duration)
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=2)
+    day_before = day_daignosed - tow_day
     return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: 'address xxxx time hh:mm duration: mm"
+           f"Please enter: <address> at <hh:mm>"
 
 
+# 114
+def day2_duration(user_name, args):
+    duration = args[0]
+    dbHandler.set_duration_by_user_name(user_name, duration)
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=3)
+    day_before = day_daignosed - tow_day
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: <address> at <hh:mm>"
+
+
+# 115
+def day3_duration(user_name, args):
+    duration = args[0]
+    dbHandler.set_duration_by_user_name(user_name, duration)
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=4)
+    day_before = day_daignosed - tow_day
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: <address> at <hh:mm>"
+
+
+# 116
+def day4_duration(user_name, args):
+    duration = args[0]
+    dbHandler.set_duration_by_user_name(user_name, duration)
+    return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
+           f"I wish you to feel good.\n" \
+           f"and don't forget: STAY AT HOME ;)"
+
+# 104
 def where_been_day2(user_name, args):
-    location_end_index = args.index('time')
-    i = 1
+    location_end_index = args.index('at')
+    i = 0
     location = ""
     while i < location_end_index:
         location += " "
         location += args[i]
         i += 1
-    hour = args[args.index('time') + 1]
-    duration = args[args.index('time') + 3]
+    hour = args[args.index('at') + 1]
+    # duration = args[args.index('at') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=3)
@@ -291,25 +338,24 @@ def where_been_day2(user_name, args):
     lon = data.get("lon")
     day_hour = day_daignosed - timedelta(days=2)
     day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
-    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, 0, 1)
     location_obj = Location(lat, lon)
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: 'address xxxx time hh:mm duration: mm"
+    return "How much time you spent there?"
 
 
 def where_been_day3(user_name, args):
-    location_end_index = args.index('time')
-    i = 1
+    location_end_index = args.index('at')
+    i = 0
     location = ""
     while i < location_end_index:
         location += " "
         location += args[i]
         i += 1
-    hour = args[args.index('time') + 1]
-    duration = args[args.index('time') + 3]
+    hour = args[args.index('at') + 1]
+    # duration = args[args.index('at') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=4)
@@ -319,25 +365,24 @@ def where_been_day3(user_name, args):
     lon = data.get("lon")
     day_hour = day_daignosed - timedelta(days=3)
     day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
-    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, 0, 1)
     location_obj = Location(lat, lon)
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: 'address xxxx time hh:mm duration: mm"
+    return "How much time you spent there?"
 
 
 def where_been_day4(user_name, args):
-    location_end_index = args.index('time')
-    i = 1
+    location_end_index = args.index('at')
+    i = 0
     location = ""
     while i < location_end_index:
         location += " "
         location += args[i]
         i += 1
-    hour = args[args.index('time') + 1]
-    duration = args[args.index('time') + 3]
+    hour = args[args.index('at') + 1]
+    # duration = args[args.index('at') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=5)
@@ -347,14 +392,12 @@ def where_been_day4(user_name, args):
     lon = data.get("lon")
     day_hour = day_daignosed - timedelta(days=4)
     day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
-    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, 0, 1)
     location_obj = Location(lat, lon)
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
-           f"I wish you to feel good.\n" \
-           f"and don't forget: STAY AT HOME ;)"
+    return "How much time you spent there?"
 
 
 def finish_epmd(user_name, args):
@@ -408,16 +451,17 @@ def check_is_red_location(place, time):
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
-
+                  113: day1_duration, 114: day2_duration, 115: day3_duration, 116: day4_duration,
                   106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
                   155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym,  # corona test
                   300: anther_command,
                   4: insert_name, 5: insert_id, 51: get_yesterday_location_time}  # bidud 52: check_is_red_location
 
 state_flow = {2: 3, 3: 300, 301: 300,  # start
-              101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300,  # empd
+              101: 102, 102: 103, 103: 113, 113: 104, 104: 114, 114: 105, 105: 115, 115: 106, 106: 116, 116: 107, 107: 300,  # empd
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
               50: 51, 51: 300,
               1: 4, 4: 5, 5: 2
-              }  # bidud 51: 52, 52: 300,
+                            }  # bidud
+
