@@ -1,5 +1,3 @@
-
-
 import personLocation
 from person import *
 from location import *
@@ -95,6 +93,7 @@ def no_fever(user_name, args):
         dbHandler.set_state_by_user_name(user_name, 152)
         return "wrong input, try again\nAre you coughing?"
 
+
 # 154
 def have_corona(user_name, args):
     if args[0] == 'yes':
@@ -188,7 +187,6 @@ def have_n_sym(user_name, args):
         return "wrong input, try again\nDo you feel tired?"
 
 
-
 def when_daignosed(user_name, args):
     dbHandler.insert_day_daignose(user_name, args[0])
     day_daignosed = datetime.strptime(args[0], '%Y-%m-%d')
@@ -197,15 +195,16 @@ def when_daignosed(user_name, args):
     return f"Where you were on the date {day_before.date()}?\n" \
            f"Please enter: 'address xxxx time hh:mm duration: mm"
 
-#['address','yafo','1','time','10:30','duration','75']
+
+# ['address','yafo','1','time','10:30','duration','75']
 def where_been_day1(user_name, args):
     location = " ".join(args)
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     one_day = timedelta(days=2)
     day_before = day_daignosed - one_day
-    #data = geolocator.geocode("1 yaffo , jerusalem, israel")
-    #lat, lon = data.raw.get("lat"), data.raw.get("lon")
+    # data = geolocator.geocode("1 yaffo , jerusalem, israel")
+    # lat, lon = data.raw.get("lat"), data.raw.get("lon")
     # personLocation p_location(234, lat, lon, 1, 2020-10-9, 60, 1)
     # dbHandler.insert_location_person()
     return f"Where you were on the date {day_before.date()}?\n" \
@@ -230,10 +229,11 @@ def finish_epmd(user_name, args):
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
-                  106: where_been_day4, 107: finish_epmd,152: have_fever, 153: no_fever}
-
+                  106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
+                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym}
 
 state_flow = {1: 2, 2: 3, 3: 300,  # start
-              151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300,  # coronatest
-              101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300 #empd
+              151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300,
+              164: 154, 166: 156, 168: 158,  # corona test
+              101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300  # empd
               }
