@@ -56,19 +56,20 @@ def flow_epidemiology(user_name):
     dbHandler.set_state_by_user_name(user_name, 101)
     return "when are you daignosed in Covid19?(yyyy-mm-dd)"
 
-# 300
-def thank_you(user_name, args):
+
+# 301
+def thank_you():
     return "Thank you:-)\n You prevent covid-19 from spreading!!\n" \
            "Do you want anther command?"
 
 
-# 301
+# 300
 def anther_command(user_name, args):
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         dbHandler.set_state_by_user_name(user_name, 2)
         return "Please select command to continue"
     else:
-        return "Ready for you anytime\nplease identify again"
+        return "Ready for you anytime\n /start to continue"
 
 
 # 151-200
@@ -130,7 +131,7 @@ def have_3sym(user_name, args):
                "Do you any other symptoms?"
     elif args[0] == 'no':
         return "Wow, you have fever and you are coughing, and still not tired?!\n" \
-               "You should take covid-19-test,\nAnd isolate yourself from society"
+               "You should take covid-19-test,\nAnd isolate yourself from society\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 155)
         return "wrong input, try again\nDo you feel tired?"
@@ -147,10 +148,10 @@ def have_2sym(user_name, args):
     if args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
                "but it can be any other virus or bacteria.\n" \
-               "Please take a covid-19 test, stay home.\nWe don't want the covid to spread"
+               "Please take a covid-19 test, stay home.\nWe don't want the covid to spread\n\n" + thank_you()
     elif args[0] == 'no':
         return "Ho, you just have fever, it's a sign you should go rest\n it's recommended take a covid-19 test, " \
-               "stay home.\nWe don't want the covid to spread "
+               "stay home.\nWe don't want the covid to spread \n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 166)
         return "wrong input, try again\nDo you feel tired?"
@@ -166,10 +167,10 @@ def have_1sym(user_name, args):
     """
     if args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
-               "Please take a covid-19 test, stay home.We don't want the covid to spread"
+               "Please take a covid-19 test, stay home.We don't want the covid to spread\n\n" + thank_you()
     elif args[0] == 'no':
         return "You are only coughing, it might be covid-virus\n but I'm not sure...\n" \
-               "Maybe it's just a cold, go rest, wish you feel better soon"
+               "Maybe it's just a cold, go rest, wish you feel better soon\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 157)
         return "wrong input, try again\nDo you feel tired?"
@@ -186,11 +187,11 @@ def have_n_sym(user_name, args):
     if args[0] == 'yes':
         return "You don't have fever, and you are not coughing.\n" \
                "Maybe you didn't sleep so well, and there for you are tired.\n" \
-               "Go rest, and I hope you will feel stronger soon"
+               "Go rest, and I hope you will feel stronger soon\n\n" + thank_you()
     elif args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 300)
         return "You do not have any severe symptom of Covid.\n" \
-               "maybe it's just anxiety to get infected with covid"
+               "maybe it's just anxiety to get infected with covid\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 168)
         return "wrong input, try again\nDo you feel tired?"
@@ -206,10 +207,10 @@ def more_sym(user_name, args):
         """
     if args[0] == 'yes':
         return "Your condition sounds bad\nit's probably because you have covid.\n" \
-               "You should take covid-19-test immediately,\nAnd isolate yourself from society"
+               "You should take covid-19-test immediately,\nAnd isolate yourself from society\n\n" + thank_you()
     elif args[0] == 'no':
         return "I think you should take covid-19-test,\nAnd isolate yourself from society.\n" \
-               "Although you don't have other symptoms"
+               "Although you don't have other symptoms\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 169)
         return "wrong input, try again\nDo you any other symptoms?"
