@@ -68,46 +68,46 @@ def thank_you(user_name, args):
 # 151-200
 def flow_corona_test(user_name):
     dbHandler.set_state_by_user_name(user_name, 151)
-    return "Ho, no, so sad you feel sick.\ndo you have fever?(yes/little/no)"
+    return "Ho, no, so sad you feel sick.\ndo you have fever? /yes /little /no "
 
 
 # 152
 def have_fever(user_name, args):
-    if args[0] == 'yes':
-        return "Are you coughing?(dry cough/wet cough/no cough)"
-    elif args[0] == 'no':
+    if args[0] == '/yes' or args[0] == 'yes':
+        return "Are you coughing? /dry_cough /wet_cough /no_cough "
+    elif args[0] == '/no' or args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Are you coughing?(dry cough/wet cough/no cough)"
-    elif args[0] == 'little':
+        return "Are you coughing? /dry_cough /wet_cough /no_cough "
+    elif args[0] == '/little' or args[0] == 'little':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Its probably not related to covid\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "Its probably not related to covid\nAre you coughing?  /dry_cough /wet_cough /no_cough "
     else:
         dbHandler.set_state_by_user_name(user_name, 151)
-        return "wrong input, try again\ndo you have fever?"
+        return "wrong input, try again\ndo you have fever? /yes /little /no"
 
 
 # 153
 def no_fever(user_name, args):
-    if args[0] == 'dry':
-        return "Do you feel tired?"
-    elif args[0] == 'no' or args[0] == 'wet':
+    if args[0] == '/dry_cough' or args[0] == 'dry':
+        return "Do you feel tired? /yes /no"
+    elif args[0] == '/no_cough' or args[0] == '/wet_cough' or args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 166)
-        return "Do you feel tired?"
+        return "Do you feel tired? /yes /no"
     else:
         dbHandler.set_state_by_user_name(user_name, 152)
-        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
 
 
 # 154
 def have_corona(user_name, args):
-    if args[0] == 'dry':
-        return "Do you feel tired?"
-    elif args[0] == 'no' or args[0] == 'wet':
+    if args[0] == '/dry_cough' or args[0] == 'dry':
+        return "Do you feel tired? /yes /no"
+    elif args[0] == '/no_cough' or args[0] == '/wet_cough' or args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 168)
-        return "Do you feel tired?"
+        return "Do you feel tired? /yes /no"
     else:
         dbHandler.set_state_by_user_name(user_name, 153)
-        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
 
 
 # 155
@@ -118,16 +118,16 @@ def have_3sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         dbHandler.set_state_by_user_name(user_name, 169)
         return "You have all the severe symptoms for covid-19\nit's probably because you have covid.\n" \
-               "Do you any other symptoms?"
-    elif args[0] == 'no':
+               "Do you any other symptoms? /yes /no"
+    elif args[0] == '/no' or args[0] == 'no':
         return "Wow, you have fever and you are coughing, and still not tired?!\n" \
                "You should take covid-19-test,\nAnd isolate yourself from society"
     else:
         dbHandler.set_state_by_user_name(user_name, 155)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 156
@@ -138,16 +138,16 @@ def have_2sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
                "but it can be any other virus or bacteria.\n" \
                "Please take a covid-19 test, stay home.\nWe don't want the covid to spread"
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         return "Ho, you just have fever, it's a sign you should go rest\n it's recommended take a covid-19 test, " \
                "stay home.\nWe don't want the covid to spread "
     else:
         dbHandler.set_state_by_user_name(user_name, 166)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 157
@@ -158,15 +158,15 @@ def have_1sym(user_name, args):
     :param args: yes / no
     :return: message
     """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
                "Please take a covid-19 test, stay home.We don't want the covid to spread"
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         return "You are only coughing, it might be covid-virus\n but I'm not sure...\n" \
                "Maybe it's just a cold, go rest, wish you feel better soon"
     else:
         dbHandler.set_state_by_user_name(user_name, 157)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 158
@@ -177,17 +177,17 @@ def have_n_sym(user_name, args):
     :param args: yes / no
     :return: message
     """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You don't have fever, and you are not coughing.\n" \
                "Maybe you didn't sleep so well, and there for you are tired.\n" \
                "Go rest, and I hope you will feel stronger soon"
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 300)
         return "You do not have any severe symptom of Covid.\n" \
                "maybe it's just anxiety to get infected with covid"
     else:
         dbHandler.set_state_by_user_name(user_name, 168)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 159
@@ -198,15 +198,15 @@ def more_sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "Your condition sounds bad\nit's probably because you have covid.\n" \
                "You should take covid-19-test immediately,\nAnd isolate yourself from society"
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         return "I think you should take covid-19-test,\nAnd isolate yourself from society.\n" \
                "Although you don't have other symptoms"
     else:
         dbHandler.set_state_by_user_name(user_name, 169)
-        return "wrong input, try again\nDo you any other symptoms?"
+        return "wrong input, try again\nDo you any other symptoms? /yes /no"
 
 
 def when_daignosed(user_name, args):
