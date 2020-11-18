@@ -62,7 +62,7 @@ def flow_epidemiology(user_name):
 # 151-200
 def flow_corona_test(user_name):
     dbHandler.set_state_by_user_name(user_name, 151)
-    return "do you have fever?"
+    return "Ho, no, so sad you feel sick.\ndo you have fever?"
 
 
 def thank_you(user_name, args):
@@ -71,30 +71,23 @@ def thank_you(user_name, args):
 
 def have_fever(user_name, args):
     if args[0] == 'yes':
-        return "do you coughf?"
+        return "Are you coughing?"
     elif args[0] == 'no':
-        dbHandler.set_state_by_user_name(user_name,300)
-        return "you don't have corona"
-    else:
         dbHandler.set_state_by_user_name(user_name, 300)
-        return "worng input"
+        return "you probably don't have corona.\nhope you will feel good soon"
+    else:
+        dbHandler.set_state_by_user_name(user_name, 151)
+        return "wrong input, try again"
 
 
 def no_fever(user_name, args):
     if args[0] == 'yes':
-        return "you might have corona"
+        return "you probably have corona.\ngo check yourself for corona"
     elif args[0] == 'no':
-        return "you don't have corona"
+        return "you might have corona.\ngo check yourself for corona"
     else:
-        return "worng input"
-
-
-def have_corona(user_name, args):
-    pass
-
-
-def no_corona(user_name, args):
-    pass
+        dbHandler.set_state_by_user_name(user_name, 152)
+        return "wrong input, try again"
 
 
 def when_daignosed(user_name, args):
@@ -135,6 +128,8 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
                   152: have_fever, 153: no_fever}
                  # 50: get_yesterday_location, 51: }
 state_flow = {1: 2, 2: 3, 3: 300, #start
+
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300, #empd
+
               151: 152, 152: 153, 153: 300 #coronatest
               }

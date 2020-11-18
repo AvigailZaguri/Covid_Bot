@@ -13,6 +13,7 @@ def handle_bot(message):
     if not current_state:
         current_state = 1
         covid_api.set_state_by_user_name(user_name, current_state)
+        #update next state
         return covid_api.state_commands[current_state]()
     elif current_state != 300:
         current_state = covid_api.next_state(user_name, current_state)
