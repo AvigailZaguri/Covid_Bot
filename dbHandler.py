@@ -88,7 +88,8 @@ def get_location_by_name_and_time(location, time):
     lat = lat_lon_data.raw.get("lat")
     lon = lat_lon_data.raw.get("lon")
     with connection.cursor() as cursor:
-        query = f"select lat,lon from location where lat={lat} and lon={lon};"
+        query = f"select lat,lon from location where lat={lat} and lon={lon} where {time} <= startDateTime and" \
+                f" {time} >= startDateTime+duration;"
         cursor.execute(query)
         location = cursor.fetchone()
         return location
