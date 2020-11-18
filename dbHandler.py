@@ -85,18 +85,6 @@ def set_state_by_user_name(user_name, state):
             cursor.execute(query)
             connection.commit()
 
-def mok_db():
-    with connection.cursor() as cursor:
-        query = "insert into person values(209311181, 'aya', 025375858, '0987', 0);"
-        cursor.execute(query)
-        connection.commit()
-        query = "insert into location values('31.75165995', '35.18739009689732');"
-        cursor.execute(query)
-        connection.commit()
-        query = "insert into LocationPerson values('2020-11-16 10:30:00', 75, 1, 0, 0987, '31.75165995', '35.18739009689732');"
-        cursor.execute(query)
-        connection.commit()
-
 
 def get_location_by_name_and_time(location, time):
     lat_lon_data = Nominatim.geolocator.geocode(location)
