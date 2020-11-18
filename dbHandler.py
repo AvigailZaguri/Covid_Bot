@@ -100,7 +100,7 @@ def get_location_by_name_and_time(location, time):
         return "Place not found"
     lat = lat_lon_data.raw.get("lat")
     lon = lat_lon_data.raw.get("lon")
-    with connection.cursor() as cursor:
+    with connaection.cursor() as cursor:
         query = f"select lat,lon from locationperson where lat='{lat}' and lon='{lon}'" \
             f" and '{time}' >= time(startDateTime)" \
             f" and  '{time}' <= time(startDateTime)+ interval duration minute;"
