@@ -32,8 +32,8 @@ def insert_id(user_name, args):
 # 2
 def identification(user_name, args):
     dbHandler.set_phone_by_user_name(user_name, args[0])
-    return "The identification process success\n" \
-           "Please select command to continue \n /quarantine \n /epidemiology \n /questioning"
+    return "The identification process was successful\n" \
+           "Please select a command to continue \n /quarantine \n /epidemiology \n /questioning"
 
 
 def get_state_by_user_name(user_name):
@@ -74,34 +74,34 @@ def which_command(user_name, args):
 # 50-100
 def flow_insulation(user_name):
     dbHandler.set_state_by_user_name(user_name, 50)
-    return "Where have you been yesterday? \n please enter (Yafo 1, Jerusalem at hh:mm, about XXX minutes)"
+    return "Where have you been yesterday? \n please enter (<address> at <hh:mm>, about <XXX> minutes)"
 
 
 # 101-150
 def flow_epidemiology(user_name):
     dbHandler.set_state_by_user_name(user_name, 101)
-    return "when are you daignosed in Covid19?(yyyy-mm-dd)"
+    return "When were you daignosed in Covid19? (yyyy-mm-dd)"
 
 
 # 301
 def thank_you():
-    return "Thank you:-)\n You prevent covid-19 from spreading!!\n" \
-           "Do you want anther command? /yes /no"
+    return "Thank you:)\n You prevent covid-19 from spreading!!\n" \
+           "Do you want to execute another command? /yes /no"
 
 
 # 300
 def anther_command(user_name, args):
     if args[0] == '/yes' or args[0] == 'yes':
         dbHandler.set_state_by_user_name(user_name, 2)
-        return "Please select command to continue"
+        return "Please select a command to continue"
     else:
-        return "Ready for you anytime\n /start to continue"
+        return "Ready for you anytime.\n click /start to continue"
 
 
 # 151-200
 def flow_corona_test(user_name):
     dbHandler.set_state_by_user_name(user_name, 151)
-    return "Ho, no, so sad you feel sick.\ndo you have fever? /yes /little /no "
+    return "Ho, no, so sad, you feel sick.\ndo you have fever? /yes /little /no "
 
 
 # 152
@@ -113,10 +113,10 @@ def have_fever(user_name, args):
         return "Are you coughing? /dry_cough /wet_cough /no_cough "
     elif args[0] == '/little' or args[0] == 'little':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Its probably not related to covid\nAre you coughing?  /dry_cough /wet_cough /no_cough "
+        return "It's probably not related to covid\nAre you coughing?  /dry_cough /wet_cough /no_cough "
     else:
         dbHandler.set_state_by_user_name(user_name, 151)
-        return "wrong input, try again\ndo you have fever? /yes /little /no"
+        return "Wrong input, try again\ndo you have a fever? /yes /little /no"
 
 
 # 153
@@ -140,7 +140,7 @@ def have_corona(user_name, args):
         return "Do you feel tired? /yes /no"
     else:
         dbHandler.set_state_by_user_name(user_name, 153)
-        return "wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
+        return "Wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
 
 
 # 155
@@ -154,13 +154,13 @@ def have_3sym(user_name, args):
     if args[0] == '/yes' or args[0] == 'yes':
         dbHandler.set_state_by_user_name(user_name, 169)
         return "You have all the severe symptoms for covid-19\nit's probably because you have covid.\n" \
-               "Do you any other symptoms? /yes /no"
+               "Do you any more symptoms? /yes /no"
     elif args[0] == '/no' or args[0] == 'no':
-        return "Wow, you have fever and you are coughing, and still not tired?!\n" \
-               "You should take covid-19-test,\nAnd isolate yourself from society\n\n" + thank_you()
+        return "Wow, you have a fever and you are coughing, and still not tired?!\n" \
+               "You should take covid-19-test,\nand isolate yourself from society\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 155)
-        return "wrong input, try again\nDo you feel tired? /yes /no"
+        return "Wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 156
@@ -172,15 +172,15 @@ def have_2sym(user_name, args):
         :return: message
         """
     if args[0] == '/yes' or args[0] == 'yes':
-        return "You have two severe symptoms for covid\nYou might have the virus.\n" \
+        return "You have two severe symptoms for covid\nYou might have the virus,\n" \
                "but it can be any other virus or bacteria.\n" \
                "Please take a covid-19 test, stay home.\nWe don't want the covid to spread\n\n" + thank_you()
     elif args[0] == '/no' or args[0] == 'no':
-        return "Ho, you just have fever, it's a sign you should go rest\n it's recommended take a covid-19 test, " \
+        return "Ho, you just have a fever, it's a sign you should go rest\n it's recommended take a covid-19 test, " \
                "stay home.\nWe don't want the covid to spread \n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 166)
-        return "wrong input, try again\nDo you feel tired? /yes /no"
+        return "Wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 157
@@ -199,7 +199,7 @@ def have_1sym(user_name, args):
                "Maybe it's just a cold, go rest, wish you feel better soon\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 157)
-        return "wrong input, try again\nDo you feel tired? /yes /no"
+        return "Wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 158
@@ -211,16 +211,16 @@ def have_n_sym(user_name, args):
     :return: message
     """
     if args[0] == '/yes' or args[0] == 'yes':
-        return "You don't have fever, and you are not coughing.\n" \
+        return "You don't have a fever, and you are not coughing.\n" \
                "Maybe you didn't sleep so well, and there for you are tired.\n" \
-               "Go rest, and I hope you will feel stronger soon\n\n" + thank_you()
+               "Go rest, and I hope you will feel better soon\n\n" + thank_you()
     elif args[0] == '/no' or args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 300)
         return "You do not have any severe symptom of Covid.\n" \
                "maybe it's just anxiety to get infected with covid\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 168)
-        return "wrong input, try again\nDo you feel tired? /yes /no"
+        return "Wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 159
@@ -237,7 +237,7 @@ def more_sym(user_name, args):
     elif args[0] == '/no' or args[0] == 'no':
 
         return "I think you should take covid-19-test,\nAnd isolate yourself from society.\n" \
-               "Although you don't have other symptoms\n\n" + thank_you()
+               "Although you don't have no other symptoms\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 169)
         return "wrong input, try again\nDo you any other symptoms? /yes /no"
@@ -279,7 +279,7 @@ def where_been_day1(user_name, args):
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return "How much time you spent there?"
+    return "How long have you been there?"
 
 
 # 113
@@ -293,6 +293,7 @@ def day1_duration(user_name, args):
     return "Where you in another place that day? /yes /no"
 
 
+
 # 114
 def day2_duration(user_name, args):
     duration = args[0]
@@ -302,6 +303,7 @@ def day2_duration(user_name, args):
     tow_day = timedelta(days=3)
     day_before = day_daignosed - tow_day
     return "Where you in another place that day? /yes /no"
+
 
 
 # 115
@@ -315,14 +317,12 @@ def day3_duration(user_name, args):
     return "Where you in another place that day? /yes /no"
 
 
+
 # 116
 def day4_duration(user_name, args):
     duration = args[0]
     dbHandler.set_duration_by_user_name(user_name, duration)
     return "Where you in another place that day? /yes /no"
-    # return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
-    #        f"I wish you to feel good.\n" \
-    #        f"and don't forget: STAY AT HOME ;)"
 
 
 # 104
@@ -350,7 +350,7 @@ def where_been_day2(user_name, args):
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return "How much time you spent there?"
+    return "How long have you been there?"
 
 
 def where_been_day3(user_name, args):
@@ -377,7 +377,7 @@ def where_been_day3(user_name, args):
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return "How much time you spent there?"
+    return "How long have you been there?"
 
 
 def where_been_day4(user_name, args):
@@ -404,10 +404,9 @@ def where_been_day4(user_name, args):
     if not dbHandler.get_location(location_obj):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
-    return "How much time you spent there?"
+    return "How long have you been there?"
 
 
-# 123
 
 def more_location_day1(user_name, args):
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
@@ -488,7 +487,7 @@ def get_yesterday_location_time(user_name, args):
     if int(duration) < 15:
         return "The duration is less than 15 minutes,\n" \
                "you don't have to go into isolation.\n" \
-               "if you want to start again click /start"
+               "you can select other commands by pressing: /start"
     time = ""
     time += args[time_index + 1]
     print(time)
@@ -517,7 +516,7 @@ def check_is_red_location(place, time):
                "if you want to start again click /start"
     else:
         return "It's not a red place, you'r free!\n" \
-               "if you want to start again click /start"
+               "you can select other commands by pressing: /start"
 
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
