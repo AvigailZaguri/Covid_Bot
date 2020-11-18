@@ -129,8 +129,8 @@ def set_state_by_user_name(user_name, state):
 def is_red_location(lat, lon, time):
     with connection.cursor() as cursor:
         query = f"select lat,lon from locationperson where lat='{lat}' and lon='{lon}'" \
-            f" and '{time}' >= time(startDateTime)" \
-            f" and  '{time}' <= time(startDateTime)+ interval duration minute;"
+            f" and time(startDateTime) >= '{time}'" \
+            f" and  time(startDateTime)  + interval duration minute <= '{time}';"
         cursor.execute(query)
         location = cursor.fetchone()
         if location:
