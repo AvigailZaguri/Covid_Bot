@@ -2,9 +2,6 @@ from config import connection
 from person import *
 from location import *
 
-from geopy.geocoders import Nominatim
-
-
 
 def insert_person(person):
     with connection.cursor() as cursor:
@@ -94,17 +91,12 @@ def set_state_by_user_name(user_name, state):
 
 
 def get_location_by_name_and_time(location, time):
-    geolocator = Nominatim(user_agent="example app")
-    lat_lon_data = geolocator.geocode(location)
-    if not lat_lon_data:
-        return "Place not found"
-    lat = lat_lon_data.raw.get("lat")
-    lon = lat_lon_data.raw.get("lon")
     with connection.cursor() as cursor:
-        query = f"select lat,lon from locationperson where lat='{lat}' and lon='{lon}'" \
+        query = f"select lat,lon from locationperson where lat='{location.lat}' and lon='{location.lon}'" \
             f" and '{time}' >= time(startDateTime)" \
             f" and  '{time}' <= time(startDateTime)+ interval duration minute;"
         cursor.execute(query)
         location = cursor.fetchone()
         return location
+
 

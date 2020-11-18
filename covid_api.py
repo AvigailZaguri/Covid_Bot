@@ -343,7 +343,7 @@ def get_yesterday_location_time(user_name, args):
     time = args[time_index + 1]
     print(time)
     place = ""
-    for i in range(place_index, time_index):
+    for i in range(place_index + 1, time_index):
         place += args[i] + " "
     place = place.strip()
     print(place)
@@ -352,7 +352,17 @@ def get_yesterday_location_time(user_name, args):
 
 
 def check_is_red_location(location, time):
-    if dbHandler.get_location_by_name_and_time(location, time):
+    print(location)
+    print(time)
+    data = geolocator.geocode(location).raw
+    print(data)
+    if not data:
+        return "Place not found"
+    lat = data.get("lat")
+    lon = data.get("lon")
+    print(data)
+    location_obj = Location(lat, lon)
+    if dbHandler.get_location_by_name_and_time(location_obj, time):
         return "It's a red place, please go into isolation\n" \
                "if you want to start again click /start"
     else:
