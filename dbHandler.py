@@ -21,6 +21,14 @@ def insert_day_daignose(user_name, day_daignose):
         connection.commit()
 
 
+def get_day_daignose(user_name):
+    with connection.cursor() as cursor:
+        query = f"select * from Person where telegramUserName = {user_name}"
+        cursor.execute(query)
+        res = cursor.fetchall()
+        return res
+
+
 def insert_location(location):
     with connection.cursor() as cursor:
         query = f"insert into location values ({location.lat}, {location.lon});"
