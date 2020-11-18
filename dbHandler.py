@@ -99,13 +99,17 @@ def mok_db():
 
 
 def get_location_by_name_and_time(location, time):
+    data = location.join(time)
+    params = data.split(",")
+    location = params[0]
+    time = params[1]
     lat_lon_data = Nominatim.geolocator.geocode(location)
     lat = lat_lon_data.raw.get("lat")
     lon = lat_lon_data.raw.get("lon")
     with connection.cursor() as cursor:
-        query = f"select lat,lon from location where lat={lat} and lon={lon} where {time} <= " \
-                f"(DATE_FORMAT(startDateTime,'%H:%i:%s') TIMEONLY and" \
-                f" {time} >= (DATE_FORMAT(startDateTime,'%H:%i:%s') TIMEONLY + INTERVAL duration MINUTE);"
+        query = f"select lat,lon from locationperson where lat='{lat}' and lon='{lon}'" \
+            f" and '{time}' >= time(startDateTime)" \
+            f" and  '{time}' <= time(startDateTime)+ interval duration minute;"
         cursor.execute(query)
         location = cursor.fetchone()
         return location
