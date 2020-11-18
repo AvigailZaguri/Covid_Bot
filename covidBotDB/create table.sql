@@ -1,18 +1,19 @@
 
 CREATE TABLE Person
 (
-  id INT,
+  id VARCHAR(9),
   name VARCHAR(30),
-  phone INT,
-  telegramUserName VARCHAR(30) NOT NULL,
+  phone VARCHAR(11),
+  telegramUserName VARCHAR(10) NOT NULL,
   Conversation_state INT NOT NULL,
+  day_daignose VARCHAR(10),
   PRIMARY KEY (telegramUserName)
 );
 
 CREATE TABLE Location
 (
-  lat FLOAT NOT NULL,
-  lon FLOAT NOT NULL,
+  lat VARCHAR(30) NOT NULL,
+  lon VARCHAR(30) NOT NULL,
   PRIMARY KEY (lat,lon)
 );
 
@@ -22,9 +23,9 @@ CREATE TABLE LocationPerson
   duration INT NOT NULL,
   isMask INT NOT NULL,
   isOpenSpace INT NOT NULL,
-  telegramUserName VARCHAR(30) NOT NULL,
-  lat FLOAT NOT NULL,
-  lon FLOAT NOT NULL,
+  telegramUserName VARCHAR(10) NOT NULL,
+  lat VARCHAR(30) NOT NULL,
+  lon VARCHAR(30) NOT NULL,
   PRIMARY KEY (telegramUserName, lat, lon),
   FOREIGN KEY (telegramUserName) REFERENCES Person(telegramUserName),
   FOREIGN KEY (lat,lon) REFERENCES Location(lat,lon)
