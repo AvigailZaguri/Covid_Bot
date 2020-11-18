@@ -6,7 +6,7 @@ from datetime import date, datetime, timedelta
 
 
 def welcome_message():
-    return "hello my name is covidbot please enter your name , id , phone"
+    return "hello my name is covid-bot please enter your name , id , phone"
 
 
 def identification(user_name, args):
@@ -64,17 +64,19 @@ def thank_you(user_name, args):
 # 151-200
 def flow_corona_test(user_name):
     dbHandler.set_state_by_user_name(user_name, 151)
-    return "Ho, no, so sad you feel sick.\ndo you have fever?"
+    return "Ho, no, so sad you feel sick.\ndo you have fever?(yes/little/no)"
 
 
 # 152
 def have_fever(user_name, args):
     if args[0] == 'yes':
-        return "Are you coughing?"
+        return "Are you coughing?(dry cough/wet cough/no cough)"
     elif args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Are you coughing?"
-        # return "you probably don't have corona.\nhope you will feel good soon"
+        return "Are you coughing?(dry cough/wet cough/no cough)"
+    elif args[0] == 'little':
+        dbHandler.set_state_by_user_name(user_name, 164)
+        return "Its probably not related to covid\nAre you coughing?(dry cough/wet cough/no cough)"
     else:
         dbHandler.set_state_by_user_name(user_name, 151)
         return "wrong input, try again\ndo you have fever?"
@@ -82,30 +84,26 @@ def have_fever(user_name, args):
 
 # 153
 def no_fever(user_name, args):
-    if args[0] == 'yes':
+    if args[0] == 'dry':
         return "Do you feel tired?"
-        # return "you probably have corona.\ngo check yourself for corona"
-    elif args[0] == 'no':
+    elif args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 166)
         return "Do you feel tired?"
-        # return "you might have corona.\ngo check yourself for corona"
     else:
         dbHandler.set_state_by_user_name(user_name, 152)
-        return "wrong input, try again\nAre you coughing?"
+        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
 
 
 # 154
 def have_corona(user_name, args):
-    if args[0] == 'yes':
+    if args[0] == 'dry':
         return "Do you feel tired?"
-        # return "you probably have corona.\ngo check yourself for corona"
-    elif args[0] == 'no':
+    elif args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 168)
         return "Do you feel tired?"
-        # return "you might have corona.\ngo check yourself for corona"
     else:
         dbHandler.set_state_by_user_name(user_name, 153)
-        return "wrong input, try again\nAre you coughing?"
+        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
 
 
 # 155
@@ -117,8 +115,9 @@ def have_3sym(user_name, args):
         :return: message
         """
     if args[0] == 'yes':
+        dbHandler.set_state_by_user_name(user_name, 169)
         return "You have all the severe symptoms for covid-19\nit's probably because you have covid.\n" \
-               "You should take covid-19-test immediately,\nAnd isolate yourself from society"
+               "Do you any other symptoms?"
     elif args[0] == 'no':
         return "Wow, you have fever and you are coughing, and still not tired?!\n" \
                "You should take covid-19-test,\nAnd isolate yourself from society"
@@ -187,6 +186,25 @@ def have_n_sym(user_name, args):
         return "wrong input, try again\nDo you feel tired?"
 
 
+# 159
+def more_sym(user_name, args):
+    """
+        fever, coughing, tired
+        :param user_name:
+        :param args: yes / no
+        :return: message
+        """
+    if args[0] == 'yes':
+        return "Your condition sounds bad\nit's probably because you have covid.\n" \
+               "You should take covid-19-test immediately,\nAnd isolate yourself from society"
+    elif args[0] == 'no':
+        return "I think you should take covid-19-test,\nAnd isolate yourself from society.\n" \
+               "Although you don't have other symptoms"
+    else:
+        dbHandler.set_state_by_user_name(user_name, 169)
+        return "wrong input, try again\nDo you any other symptoms?"
+
+
 def when_daignosed(user_name, args):
     dbHandler.insert_day_daignose(user_name, args[0])
     day_daignosed = datetime.strptime(args[0], '%Y-%m-%d')
@@ -230,10 +248,10 @@ def finish_epmd(user_name, args):
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
                   106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
-                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym}
+                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym}
 
 state_flow = {1: 2, 2: 3, 3: 300,  # start
-              151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300,
-              164: 154, 166: 156, 168: 158,  # corona test
+              151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
+              164: 154, 166: 156, 168: 158, 169: 159,  # corona test
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300  # empd
               }
