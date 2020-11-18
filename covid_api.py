@@ -56,9 +56,19 @@ def flow_epidemiology(user_name):
     dbHandler.set_state_by_user_name(user_name, 101)
     return "when are you daignosed in Covid19?(yyyy-mm-dd)"
 
-
+# 300
 def thank_you(user_name, args):
-    return "tank you"
+    return "Thank you:-)\n You prevent covid-19 from spreading!!\n" \
+           "Do you want anther command?"
+
+
+# 301
+def anther_command(user_name, args):
+    if args[0] == 'yes':
+        dbHandler.set_state_by_user_name(user_name, 2)
+        return "Please select command to continue"
+    else:
+        return "Ready for you anytime\nplease identify again"
 
 
 # 151-200
@@ -248,9 +258,9 @@ def finish_epmd(user_name, args):
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
                   106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
-                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym}
+                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym, 300: anther_command()}
 
-state_flow = {1: 2, 2: 3, 3: 300,  # start
+state_flow = {1: 2, 2: 3, 3: 300, 301: 300,# start
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300  # empd
