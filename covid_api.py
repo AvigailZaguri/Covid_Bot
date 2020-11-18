@@ -54,12 +54,21 @@ def next_state(user_name, current_state):
 
 
 def which_command(user_name, args):
+    if args[0] == '/start':
+        dbHandler.set_state_by_user_name(user_name, 1)
+        return "Hi, my name is covid-bot\n" \
+               "I'm here for you!!\n" \
+               "what's your name?"
     if args[0] == "/quarantine":
         return flow_insulation(user_name)
     if args[0] == "/epidemiology":
         return flow_epidemiology(user_name)
     if args[0] == "/questioning":
         return flow_corona_test(user_name)
+    else:
+        dbHandler.set_state_by_user_name(user_name, 2)
+        return "Wrong command.\n" \
+               "please try again."
 
 
 # 50-100
@@ -233,6 +242,7 @@ def more_sym(user_name, args):
         dbHandler.set_state_by_user_name(user_name, 169)
         return "wrong input, try again\nDo you any other symptoms? /yes /no"
 
+
 # 102
 def when_daignosed(user_name, args):
     dbHandler.insert_day_daignose(user_name, args[0])
@@ -240,7 +250,7 @@ def when_daignosed(user_name, args):
     one_day = timedelta(days=1)
     day_before = day_daignosed - one_day
     return f"Where you were on the date {day_before.date()}?\n" \
-               f"Please enter: '<address> at <hh:mm>"
+           f"Please enter: '<address> at <hh:mm>"
 
 
 # ['address','yafo','1','time','10:30','duration','75']
@@ -254,7 +264,7 @@ def where_been_day1(user_name, args):
         location += args[i]
         i += 1
     hour = args[args.index('at') + 1]
-    #duration = args[args.index('at') + 3]
+    # duration = args[args.index('at') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=2)
@@ -270,8 +280,6 @@ def where_been_day1(user_name, args):
         dbHandler.insert_location(location_obj)
     dbHandler.insert_location_person(personL)
     return "How much time you spent there?"
-    # return f"Where you were on the date {day_before.date()}?\n" \
-    #        f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 # 113
@@ -282,8 +290,7 @@ def day1_duration(user_name, args):
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=2)
     day_before = day_daignosed - tow_day
-    return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: <address> at <hh:mm>"
+    return "Where you in another place that day? /yes /no"
 
 
 # 114
@@ -294,8 +301,7 @@ def day2_duration(user_name, args):
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=3)
     day_before = day_daignosed - tow_day
-    return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: <address> at <hh:mm>"
+    return "Where you in another place that day? /yes /no"
 
 
 # 115
@@ -306,17 +312,18 @@ def day3_duration(user_name, args):
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
     tow_day = timedelta(days=4)
     day_before = day_daignosed - tow_day
-    return f"Where you were on the date {day_before.date()}?\n" \
-           f"Please enter: <address> at <hh:mm>"
+    return "Where you in another place that day? /yes /no"
 
 
 # 116
 def day4_duration(user_name, args):
     duration = args[0]
     dbHandler.set_duration_by_user_name(user_name, duration)
-    return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
-           f"I wish you to feel good.\n" \
-           f"and don't forget: STAY AT HOME ;)"
+    return "Where you in another place that day? /yes /no"
+    # return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
+    #        f"I wish you to feel good.\n" \
+    #        f"and don't forget: STAY AT HOME ;)"
+
 
 # 104
 def where_been_day2(user_name, args):
@@ -400,11 +407,75 @@ def where_been_day4(user_name, args):
     return "How much time you spent there?"
 
 
-def finish_epmd(user_name, args):
-    return "The epidemiological inquiry ended.\n" \
-           "you can start again by the command: /start"
+# 123
+
+def more_location_day1(user_name, args):
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    if args[0] == "/yes" or args[0] == "yes":
+        dbHandler.set_state_by_user_name(user_name, 102)
+        one_day = timedelta(days=1)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+    elif args[0] == "/no" or args[0] == "no":
+        one_day = timedelta(days=2)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
 
 
+# 124
+def more_location_day2(user_name, args):
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    if args[0] == "/yes" or args[0] == "yes":
+        dbHandler.set_state_by_user_name(user_name, 123)
+        one_day = timedelta(days=2)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+    elif args[0] == "/no" or args[0] == "no":
+        one_day = timedelta(days=3)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+
+
+# 125
+def more_location_day3(user_name, args):
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    if args[0] == "/yes" or args[0] == "yes":
+        dbHandler.set_state_by_user_name(user_name, 124)
+        one_day = timedelta(days=3)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+    elif args[0] == "/no" or args[0] == "no":
+        one_day = timedelta(days=4)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+
+
+# 126
+def more_location_day4(user_name, args):
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    if args[0] == "/yes" or args[0] == "yes":
+        dbHandler.set_state_by_user_name(user_name, 125)
+        one_day = timedelta(days=4)
+        day_before = day_daignosed - one_day
+        return f"Where you were on the date {day_before.date()}?\n" \
+               f"Please enter: '<address> at <hh:mm>"
+    elif args[0] == "/no" or args[0] == "no":
+        one_day = timedelta(days=5)
+        day_before = day_daignosed - one_day
+        return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
+               f"I wish you to feel good.\n" \
+               f"and don't forget: STAY AT HOME ;)\n\n" \
+               f"do you want another command: /yes /no"
 
 
 def get_yesterday_location_time(user_name, args):
@@ -412,7 +483,7 @@ def get_yesterday_location_time(user_name, args):
     print(args)
     time_index = args.index("at")
     duration_index = args.index("about")
-    duration = args[duration_index+1]
+    duration = args[duration_index + 1]
     print(duration)
     if int(duration) < 15:
         return "The duration is less than 15 minutes,\n" \
@@ -442,7 +513,7 @@ def check_is_red_location(place, time):
     lon = data.get("lon")
     time += ':00'
     if dbHandler.is_red_location(lat, lon, time):
-        return "It's a red place, please go into isolation\n" \
+        return "It's a red place, please be self quarantine\n" \
                "if you want to start again click /start"
     else:
         return "It's not a red place, you'r free!\n" \
@@ -452,16 +523,20 @@ def check_is_red_location(place, time):
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
                   113: day1_duration, 114: day2_duration, 115: day3_duration, 116: day4_duration,
-                  106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
+                  106: where_been_day4, 123: more_location_day1, 124: more_location_day2,
+                  125: more_location_day3, 126: more_location_day4,
+                  152: have_fever, 153: no_fever, 154: have_corona,
                   155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym,  # corona test
                   300: anther_command,
-                  4: insert_name, 5: insert_id, 51: get_yesterday_location_time}  # bidud 52: check_is_red_location
+                  4: insert_name, 5: insert_id, 51: get_yesterday_location_time}  # bidud
+
+# 102-103-113-[123:y(103)/n]-104-114-[124:y(103)/n]-105-115--[125:y(103)/n]106-116--[126:y(103)/n]-107-300
 
 state_flow = {2: 3, 3: 300, 301: 300,  # start
-              101: 102, 102: 103, 103: 113, 113: 104, 104: 114, 114: 105, 105: 115, 115: 106, 106: 116, 116: 107, 107: 300,  # empd
+              101: 102, 102: 103, 103: 113, 113: 123, 123: 104, 104: 114, 114: 124, 124: 105, 105: 115, 115: 125,
+              125: 106, 106: 116, 116: 126, 126: 300,  # empd
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
               50: 51, 51: 300,
               1: 4, 4: 5, 5: 2
-                            }  # bidud
-
+              }  # bidud
