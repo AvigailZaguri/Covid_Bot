@@ -9,6 +9,7 @@ TELEGRAM_INIT_WEBHOOK_URL = 'https://api.telegram.org/bot{}/setWebhook?url={}/me
                                                                                               WEBHOOK_URL)
 
 
+
 # config database
 connection = pymysql.connect(
     host="localhost",
