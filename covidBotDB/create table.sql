@@ -26,7 +26,7 @@ CREATE TABLE LocationPerson
   telegramUserName VARCHAR(10) NOT NULL,
   lat VARCHAR(30) NOT NULL,
   lon VARCHAR(30) NOT NULL,
-  PRIMARY KEY (telegramUserName, lat, lon),
+  PRIMARY KEY (telegramUserName, lat, lon, startDateTime),
   FOREIGN KEY (telegramUserName) REFERENCES Person(telegramUserName),
   FOREIGN KEY (lat,lon) REFERENCES Location(lat,lon)
  

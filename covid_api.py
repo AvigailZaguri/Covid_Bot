@@ -1,8 +1,12 @@
-import personLocation
+
+from personLocation import PersonLocation
+
 from person import *
-from location import *
+from location import Location
 import dbHandler
 from datetime import date, datetime, timedelta
+from geopy.geocoders import Nominatim
+geolocator = Nominatim(user_agent="bot app")
 
 
 def welcome_message():
@@ -75,46 +79,46 @@ def anther_command(user_name, args):
 # 151-200
 def flow_corona_test(user_name):
     dbHandler.set_state_by_user_name(user_name, 151)
-    return "Ho, no, so sad you feel sick.\ndo you have fever?(yes/little/no)"
+    return "Ho, no, so sad you feel sick.\ndo you have fever? /yes /little /no "
 
 
 # 152
 def have_fever(user_name, args):
-    if args[0] == 'yes':
-        return "Are you coughing?(dry cough/wet cough/no cough)"
-    elif args[0] == 'no':
+    if args[0] == '/yes' or args[0] == 'yes':
+        return "Are you coughing? /dry_cough /wet_cough /no_cough "
+    elif args[0] == '/no' or args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Are you coughing?(dry cough/wet cough/no cough)"
-    elif args[0] == 'little':
+        return "Are you coughing? /dry_cough /wet_cough /no_cough "
+    elif args[0] == '/little' or args[0] == 'little':
         dbHandler.set_state_by_user_name(user_name, 164)
-        return "Its probably not related to covid\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "Its probably not related to covid\nAre you coughing?  /dry_cough /wet_cough /no_cough "
     else:
         dbHandler.set_state_by_user_name(user_name, 151)
-        return "wrong input, try again\ndo you have fever?"
+        return "wrong input, try again\ndo you have fever? /yes /little /no"
 
 
 # 153
 def no_fever(user_name, args):
-    if args[0] == 'dry':
-        return "Do you feel tired?"
-    elif args[0] == 'no' or args[0] == 'wet':
+    if args[0] == '/dry_cough' or args[0] == 'dry':
+        return "Do you feel tired? /yes /no"
+    elif args[0] == '/no_cough' or args[0] == '/wet_cough' or args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 166)
-        return "Do you feel tired?"
+        return "Do you feel tired? /yes /no"
     else:
         dbHandler.set_state_by_user_name(user_name, 152)
-        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
 
 
 # 154
 def have_corona(user_name, args):
-    if args[0] == 'dry':
-        return "Do you feel tired?"
-    elif args[0] == 'no' or args[0] == 'wet':
+    if args[0] == '/dry_cough' or args[0] == 'dry':
+        return "Do you feel tired? /yes /no"
+    elif args[0] == '/no_cough' or args[0] == '/wet_cough' or args[0] == 'no' or args[0] == 'wet':
         dbHandler.set_state_by_user_name(user_name, 168)
-        return "Do you feel tired?"
+        return "Do you feel tired? /yes /no"
     else:
         dbHandler.set_state_by_user_name(user_name, 153)
-        return "wrong input, try again\nAre you coughing?(dry cough/wet cough/no cough)"
+        return "wrong input, try again\nAre you coughing? /dry_cough /wet_cough /no_cough "
 
 
 # 155
@@ -125,16 +129,16 @@ def have_3sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         dbHandler.set_state_by_user_name(user_name, 169)
         return "You have all the severe symptoms for covid-19\nit's probably because you have covid.\n" \
-               "Do you any other symptoms?"
-    elif args[0] == 'no':
+               "Do you any other symptoms? /yes /no"
+    elif args[0] == '/no' or args[0] == 'no':
         return "Wow, you have fever and you are coughing, and still not tired?!\n" \
                "You should take covid-19-test,\nAnd isolate yourself from society\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 155)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 156
@@ -145,16 +149,16 @@ def have_2sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
                "but it can be any other virus or bacteria.\n" \
                "Please take a covid-19 test, stay home.\nWe don't want the covid to spread\n\n" + thank_you()
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         return "Ho, you just have fever, it's a sign you should go rest\n it's recommended take a covid-19 test, " \
                "stay home.\nWe don't want the covid to spread \n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 166)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 157
@@ -165,15 +169,15 @@ def have_1sym(user_name, args):
     :param args: yes / no
     :return: message
     """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You have two severe symptoms for covid\nYou might have the virus.\n" \
                "Please take a covid-19 test, stay home.We don't want the covid to spread\n\n" + thank_you()
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         return "You are only coughing, it might be covid-virus\n but I'm not sure...\n" \
                "Maybe it's just a cold, go rest, wish you feel better soon\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 157)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 158
@@ -184,17 +188,17 @@ def have_n_sym(user_name, args):
     :param args: yes / no
     :return: message
     """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "You don't have fever, and you are not coughing.\n" \
                "Maybe you didn't sleep so well, and there for you are tired.\n" \
                "Go rest, and I hope you will feel stronger soon\n\n" + thank_you()
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
         dbHandler.set_state_by_user_name(user_name, 300)
         return "You do not have any severe symptom of Covid.\n" \
                "maybe it's just anxiety to get infected with covid\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 168)
-        return "wrong input, try again\nDo you feel tired?"
+        return "wrong input, try again\nDo you feel tired? /yes /no"
 
 
 # 159
@@ -205,15 +209,16 @@ def more_sym(user_name, args):
         :param args: yes / no
         :return: message
         """
-    if args[0] == 'yes':
+    if args[0] == '/yes' or args[0] == 'yes':
         return "Your condition sounds bad\nit's probably because you have covid.\n" \
                "You should take covid-19-test immediately,\nAnd isolate yourself from society\n\n" + thank_you()
-    elif args[0] == 'no':
+    elif args[0] == '/no' or args[0] == 'no':
+
         return "I think you should take covid-19-test,\nAnd isolate yourself from society.\n" \
                "Although you don't have other symptoms\n\n" + thank_you()
     else:
         dbHandler.set_state_by_user_name(user_name, 169)
-        return "wrong input, try again\nDo you any other symptoms?"
+        return "wrong input, try again\nDo you any other symptoms? /yes /no"
 
 
 def when_daignosed(user_name, args):
@@ -227,33 +232,121 @@ def when_daignosed(user_name, args):
 
 # ['address','yafo','1','time','10:30','duration','75']
 def where_been_day1(user_name, args):
-    location = " ".join(args)
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
     day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
     day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
-    one_day = timedelta(days=2)
-    day_before = day_daignosed - one_day
-    # data = geolocator.geocode("1 yaffo , jerusalem, israel")
-    # lat, lon = data.raw.get("lat"), data.raw.get("lon")
-    # personLocation p_location(234, lat, lon, 1, 2020-10-9, 60, 1)
-    # dbHandler.insert_location_person()
+    tow_day = timedelta(days=2)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=1)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
     return f"Where you were on the date {day_before.date()}?\n" \
            f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day2(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=3)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=2)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day3(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=4)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=3)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Where you were on the date {day_before.date()}?\n" \
+           f"Please enter: 'address xxxx time hh:mm duration: mm"
 
 
 def where_been_day4(user_name, args):
-    pass
+    location_end_index = args.index('time')
+    i = 1
+    location = ""
+    while i < location_end_index:
+        location += " "
+        location += args[i]
+        i += 1
+    hour = args[args.index('time') + 1]
+    duration = args[args.index('time') + 3]
+    day_daignosed = dbHandler.get_day_daignose(user_name)[0]['day_daignose']
+    day_daignosed = datetime.strptime(day_daignosed, '%Y-%m-%d')
+    tow_day = timedelta(days=5)
+    day_before = day_daignosed - tow_day
+    data = geolocator.geocode(location).raw
+    lat = data.get("lat")
+    lon = data.get("lon")
+    day_hour = day_daignosed - timedelta(days=4)
+    day_hour = day_hour.strftime('%Y-%m-%d') + f" {hour}:00"
+    personL = PersonLocation(user_name, lat, lon, 1, day_hour, duration, 1)
+    location_obj = Location(lat, lon)
+    if not dbHandler.get_location(location_obj):
+        dbHandler.insert_location(location_obj)
+    dbHandler.insert_location_person(personL)
+    return f"Tank you for your sincerity in the epidemiological inquiry.\n" \
+           f"I wish you to feel good.\n" \
+           f"and don't forget-STAY AT HOME ;)"
 
 
 def finish_epmd(user_name, args):
-    pass
+    return "The epidemiological inquiry ended.\n" \
+           "you can start again by the command: /start"
 
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
