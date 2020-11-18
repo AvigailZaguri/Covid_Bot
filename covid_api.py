@@ -65,7 +65,7 @@ def which_command(user_name, args):
 # 50-100
 def flow_insulation(user_name):
     dbHandler.set_state_by_user_name(user_name, 50)
-    return "Where have you been yesterday? please enter the exact: 'place XXX time hh:mm'"
+    return "Where have you been yesterday? \n please enter (Yafo 1, Jerusalem at hh:mm)"
 
 
 # 101-150
@@ -406,31 +406,33 @@ def finish_epmd(user_name, args):
 
 
 def get_yesterday_location_time(user_name, args):
-    time_index = args.index("time")
-    place_index = args.index("place")
-    time = args[time_index + 1]
+    print("get_yesterday_location_time")
+    print(args)
+    time_index = args.index("at")
+    time = ""
+    time += args[time_index + 1]
     print(time)
     place = ""
-    for i in range(place_index + 1, time_index):
-        place += args[i] + " "
-    place = place.strip()
-    print(place)
+    i = 0
+    while i < time_index:
+        place += " "
+        place += args[i]
+        i += 1
     # check is red location
     return check_is_red_location(place, time)
 
 
-def check_is_red_location(location, time):
-    print(location)
+def check_is_red_location(place, time):
+    print("check is red location")
+    print(place)
     print(time)
-    data = geolocator.geocode(location).raw
+    data = geolocator.geocode(place).raw
     print(data)
-    if not data:
-        return "Place not found"
+    # need to add here if the address not exist
     lat = data.get("lat")
     lon = data.get("lon")
-    print(data)
-    location_obj = Location(lat, lon)
-    if dbHandler.get_location_by_name_and_time(location_obj, time):
+    time += ':00'
+    if dbHandler.is_red_location(lat, lon, time):
         return "It's a red place, please go into isolation\n" \
                "if you want to start again click /start"
     else:
@@ -444,12 +446,13 @@ state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: 
                   106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
                   155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym,  # corona test
                   300: anther_command,
-                  4: insert_name, 5: insert_id, 51: get_yesterday_location_time, 52: check_is_red_location}  # bidud
+                  4: insert_name, 5: insert_id, 51: get_yesterday_location_time}  # bidud 52: check_is_red_location
 
 state_flow = {2: 3, 3: 300, 301: 300,  # start
               101: 102, 102: 103, 103: 113, 113: 104, 104: 114, 114: 105, 105: 115, 115: 106, 106: 116, 116: 107, 107: 300,  # empd
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
-              50: 51, 51: 52, 52: 300,
+              50: 51, 51: 300,
               1: 4, 4: 5, 5: 2
                             }  # bidud
+

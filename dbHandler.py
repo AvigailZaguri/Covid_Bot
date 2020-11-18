@@ -83,12 +83,16 @@ def set_duration_by_user_name(user_name, duration):
         connection.commit()
 
 
-def is_red_location(lat, lon, date):
+def is_red_location(lat, lon, time):
+    print("db handler is red location")
+    print(lat)
+    print(lon)
+    print(time)
     with connection.cursor() as cursor:
-        query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}' and startDateTime.date = {date};"
+        query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}' and time(startDateTime) = '{time}';"
         cursor.execute(query)
         res = cursor.fetchall()
-        if res[0]:
+        if res:
             return True
         return False
 
