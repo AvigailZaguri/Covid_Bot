@@ -84,7 +84,14 @@ def mok_db():
 
 
 def get_location_by_name_and_time(location, time):
-    pass
+    lat_lon_data = Nominatim.geolocator.geocode(location)
+    lat = lat_lon_data.raw.get("lat")
+    lon = lat_lon_data.raw.get("lon")
+    with connection.cursor() as cursor:
+        query = f"select lat,lon from location where lat={lat} and lon={lon};"
+        cursor.execute(query)
+        location = cursor.fetchone()
+        return location
 
 #mok_db()
 

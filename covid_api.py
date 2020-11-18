@@ -125,7 +125,10 @@ def get_yesterday_location_time(user_name, args):
 
 
 def check_is_red_location(location, time):
-    dbHandler.get_location_by_name_and_time(location, time)
+    if dbHandler.get_location_by_name_and_time(location, time):
+        return "It's a red place, please go into isolation"
+    else:
+        return "It's not a red place, you'r free!"
 
 
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
