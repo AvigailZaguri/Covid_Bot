@@ -13,6 +13,29 @@ def insert_person(person):
         connection.commit()
 
 
+def set_name_by_user_name(user_name, my_name):
+    with connection.cursor() as cursor:
+        query = f"update person set name = '{my_name}'" \
+                f"where telegramUserName = '{user_name}';"
+        cursor.execute(query)
+        connection.commit()
+
+
+def set_phone_by_user_name(user_name, phone):
+    with connection.cursor() as cursor:
+        query = f"update person set phone = '{phone}'" \
+                f"where telegramUserName = '{user_name}';"
+        cursor.execute(query)
+        connection.commit()
+
+
+def set_id_by_user_name(user_name, id):
+    with connection.cursor() as cursor:
+        query = f"update person set id = '{id}'" \
+                f"where telegramUserName = '{user_name}';"
+        cursor.execute(query)
+        connection.commit()
+
 def insert_day_daignose(user_name, day_daignose):
     with connection.cursor() as cursor:
         query = f"update person set day_daignose = '{day_daignose}'" \
