@@ -74,18 +74,18 @@ def insert_location_person(person_location):
         connection.commit()
 
 
-def is_red_location(lat, lon, time):
-    print("db handler is red location")
-    print(lat)
-    print(lon)
-    print(time)
-    with connection.cursor() as cursor:
-        query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}' and time(startDateTime) = '{time}';"
-        cursor.execute(query)
-        res = cursor.fetchall()
-        if res:
-            return True
-        return False
+# def is_red_location(lat, lon, time):
+    # print("db handler is red location")
+    # print(lat)
+    # print(lon)
+    # print(time)
+    # with connection.cursor() as cursor:
+    #     query = f"select * from LocationPerson where lat = '{lat}' and lon = '{lon}' and time(startDateTime) = '{time}';"
+    #     cursor.execute(query)
+    #     res = cursor.fetchall()
+    #     if res:
+    #         return True
+    #     return False
 
 
 def get_date_time_and_duration(lat, lon, date):
@@ -117,13 +117,15 @@ def set_state_by_user_name(user_name, state):
             connection.commit()
 
 
-def get_location_by_name_and_time(location, time):
+def is_red_location(lat, lon, time):
     with connection.cursor() as cursor:
-        query = f"select lat,lon from locationperson where lat='{location.lat}' and lon='{location.lon}'" \
+        query = f"select lat,lon from locationperson where lat='{lat}' and lon='{lon}'" \
             f" and '{time}' >= time(startDateTime)" \
             f" and  '{time}' <= time(startDateTime)+ interval duration minute;"
         cursor.execute(query)
         location = cursor.fetchone()
-        return location
+        if location:
+            return True
+        return False
 
 

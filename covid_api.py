@@ -65,7 +65,7 @@ def which_command(user_name, args):
 # 50-100
 def flow_insulation(user_name):
     dbHandler.set_state_by_user_name(user_name, 50)
-    return "Where have you been yesterday? \n please enter (Yafo 1, Jerusalem at hh:mm)"
+    return "Where have you been yesterday? \n please enter (Yafo 1, Jerusalem at hh:mm, about XXX minutes)"
 
 
 # 101-150
@@ -362,10 +362,19 @@ def finish_epmd(user_name, args):
            "you can start again by the command: /start"
 
 
+
+
 def get_yesterday_location_time(user_name, args):
     print("get_yesterday_location_time")
     print(args)
     time_index = args.index("at")
+    duration_index = args.index("about")
+    duration = args[duration_index+1]
+    print(duration)
+    if int(duration) < 15:
+        return "The duration is less than 15 minutes,\n" \
+               "you don't have to go into isolation.\n" \
+               "if you want to start again click /start"
     time = ""
     time += args[time_index + 1]
     print(time)
