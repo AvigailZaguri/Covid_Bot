@@ -50,7 +50,7 @@ def which_command(user_name, args):
 # 50-100
 def flow_insulation(user_name):
     dbHandler.set_state_by_user_name(user_name, 50)
-    return "Where have you been yesterday? please enter the exact: 'place: XXX time: hh:mm'"
+    return "Where have you been yesterday? please enter the exact: 'place XXX time hh:mm'"
 
 
 # 101-150
