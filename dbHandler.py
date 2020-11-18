@@ -96,6 +96,8 @@ def set_state_by_user_name(user_name, state):
 def get_location_by_name_and_time(location, time):
     geolocator = Nominatim(user_agent="example app")
     lat_lon_data = geolocator.geocode(location)
+    if not lat_lon_data:
+        return "Place not found"
     lat = lat_lon_data.raw.get("lat")
     lon = lat_lon_data.raw.get("lon")
     with connection.cursor() as cursor:

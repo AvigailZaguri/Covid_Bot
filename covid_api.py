@@ -220,10 +220,11 @@ def finish_epmd(user_name, args):
 
 def get_yesterday_location_time(user_name, args):
     time_index = args.index("time")
+    place_index = args.index("place")
     time = args[time_index + 1]
     print(time)
     place = ""
-    for i in range(1, time_index):
+    for i in range(place_index, time_index):
         place += args[i] + " "
     place = place.strip()
     print(place)
