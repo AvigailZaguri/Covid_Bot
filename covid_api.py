@@ -1,4 +1,3 @@
-
 from personLocation import PersonLocation
 
 from person import *
@@ -6,14 +5,33 @@ from location import Location
 import dbHandler
 from datetime import date, datetime, timedelta
 from geopy.geocoders import Nominatim
+
 geolocator = Nominatim(user_agent="bot app")
 
 
+# 1
 def welcome_message():
-    return "hello my name is covid-bot please enter your name , id , phone"
+    return "Hi, my name is covid-bot\n" \
+           "I am here for you!!\n" \
+           "what's your name?"
 
 
+# 4
+def insert_name(user_name, args):
+    my_name = "".join(args)
+    # dbHandler.set_name_by_user_name(user_name, my_name)
+    return "and what's your id number?"
+
+
+# 5
+def insert_id(user_name, args):
+    # dbHandler.set_id_by_user_name(user_name, args[0])
+    return "and what's your phone number?"
+
+
+# 2
 def identification(user_name, args):
+    # dbHandler.set_phone_by_user_name(user_name, args[0])
     name = args[0]
     user_id = args[1]
     phone = args[2]
@@ -352,10 +370,13 @@ def finish_epmd(user_name, args):
 state_commands = {1: welcome_message, 2: identification, 3: which_command, 300: thank_you,
                   102: when_daignosed, 103: where_been_day1, 104: where_been_day2, 105: where_been_day3,
                   106: where_been_day4, 107: finish_epmd, 152: have_fever, 153: no_fever, 154: have_corona,
-                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym, 300: anther_command()}
+                  155: have_3sym, 156: have_2sym, 157: have_1sym, 158: have_n_sym, 159: more_sym, 300: anther_command,
+                  4: insert_name, 5: insert_id
+                  }
 
-state_flow = {1: 2, 2: 3, 3: 300, 301: 300,# start
+state_flow = {1: 2, 2: 3, 3: 300, 301: 300,  # start
               151: 152, 152: 153, 153: 155, 154: 157, 155: 300, 156: 300, 157: 300, 158: 300, 159: 300,
               164: 154, 166: 156, 168: 158, 169: 159,  # corona test
               101: 102, 102: 103, 103: 104, 104: 105, 105: 106, 106: 107, 107: 300  # empd
+              # 1: 4, 4: 5, 5: 2
               }
