@@ -7,12 +7,28 @@ from geopy.geocoders import Nominatim
 
 def insert_person(person):
     with connection.cursor() as cursor:
-        query = f"update person set id = {person.person_id}," \
+        query = f"update person set id = '{person.person_id}'," \
                 f"name = '{person.name}'," \
-                f"phone = {person.phone} " \
+                f"phone = '{person.phone}' " \
                 f"where telegramUserName = {person.user_name};"
         cursor.execute(query)
         connection.commit()
+
+
+def insert_day_daignose(user_name, day_daignose):
+    with connection.cursor() as cursor:
+        query = f"update person set day_daignose = '{day_daignose}'" \
+                f"where telegramUserName = {user_name};"
+        cursor.execute(query)
+        connection.commit()
+
+
+def get_day_daignose(user_name):
+    with connection.cursor() as cursor:
+        query = f"select * from Person where telegramUserName = {user_name}"
+        cursor.execute(query)
+        res = cursor.fetchall()
+        return res
 
 
 def insert_location(location):
@@ -69,7 +85,6 @@ def set_state_by_user_name(user_name, state):
             cursor.execute(query)
             connection.commit()
 
-
 def mok_db():
     with connection.cursor() as cursor:
         query = "insert into person values(209311181, 'aya', 025375858, '0987', 0);"
@@ -95,6 +110,3 @@ def get_location_by_name_and_time(location, time):
         location = cursor.fetchone()
         return location
 
-#mok_db()
-
-#print(is_red_location('31.75165995', '35.18739009689732', '2020-11-16'))
