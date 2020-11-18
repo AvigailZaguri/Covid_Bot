@@ -5,6 +5,7 @@ from location import *
 from geopy.geocoders import Nominatim
 
 
+
 def insert_person(person):
     with connection.cursor() as cursor:
         query = f"update person set id = '{person.person_id}'," \
@@ -99,11 +100,8 @@ def mok_db():
 
 
 def get_location_by_name_and_time(location, time):
-    data = location.join(time)
-    params = data.split(",")
-    location = params[0]
-    time = params[1]
-    lat_lon_data = Nominatim.geolocator.geocode(location)
+    geolocator = Nominatim(user_agent="example app")
+    lat_lon_data = geolocator.geocode(location)
     lat = lat_lon_data.raw.get("lat")
     lon = lat_lon_data.raw.get("lon")
     with connection.cursor() as cursor:

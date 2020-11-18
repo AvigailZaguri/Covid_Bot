@@ -50,7 +50,7 @@ def which_command(user_name, args):
 # 50-100
 def flow_insulation(user_name):
     dbHandler.set_state_by_user_name(user_name, 50)
-    return "Where have you been yesterday? please enter the exact place and time (place,time)"
+    return "Where have you been yesterday? please enter the exact: 'place: XXX time: hh:mm'"
 
 
 # 101-150
@@ -130,10 +130,16 @@ def finish_epmd(user_name, args):
 
 
 def get_yesterday_location_time(user_name, args):
-    location = args[0]
-    time = args[1]
+    time_index = args.index("time")
+    time = args[time_index + 1]
+    print(time)
+    place = ""
+    for i in range(1, time_index):
+        place += args[i] + " "
+    place = place.strip()
+    print(place)
     # check is red location
-    return check_is_red_location(location, time)
+    return check_is_red_location(place, time)
 
 
 def check_is_red_location(location, time):
