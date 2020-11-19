@@ -136,3 +136,11 @@ def is_red_location(lat, lon, time):
         if location:
             return True
         return False
+
+
+def get_name_by_user_name(user_name):
+    with connection.cursor() as cursor:
+        query = f"select name from person where telegramUserName = '{user_name}';'"
+        cursor.execute(query)
+        name = cursor.fetchone()
+        return name['name']
